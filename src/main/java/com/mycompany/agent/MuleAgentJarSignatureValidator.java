@@ -2,6 +2,7 @@ package com.mycompany.agent;
 
 import com.mulesoft.agent.exception.ArtifactValidationException;
 import com.mulesoft.agent.services.ArtifactValidator;
+import com.mulesoft.agent.services.EncryptionService;
 import com.mycompany.agent.exceptions.KeyStoreException;
 import com.mycompany.agent.exceptions.SignatureVerificationFailedException;
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import sun.security.tools.KeyStoreUtil;
 import sun.security.util.SignatureFileVerifier;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.io.File;
@@ -39,9 +41,11 @@ public class MuleAgentJarSignatureValidator implements ArtifactValidator {
 
     private static final Logger LOGGER = LogManager.getLogger(MuleAgentJarSignatureValidator.class);
 
+    // Properties provided by Mule Agent Plugin
     public static final String APPLICATION_NAME_KEY = "_APPLICATION_NAME";
     public static final String APPLICATION_FILE_PATH_KEY = "_APPLICATION_FILE_PATH";
 
+    // Properties configured in the Artifact Validator service
     public static final String TRUSTSTORE_KEY = "truststore";
     public static final String TRUSTSTORE_TYPE_KEY = "truststoreType";
     public static final String TRUSTSTORE_PASSWORD_KEY = "truststorePassword";
@@ -54,20 +58,29 @@ public class MuleAgentJarSignatureValidator implements ArtifactValidator {
         return "defaultJarSignatureValidator";
     }
 
-    public void validate(Map<String, String> args) throws IOException, ArtifactValidationException {
+    @Inject
+    EncryptionService encryptionService;
+
+    public void validate(Map<String, Object> args) throws IOException, ArtifactValidationException {
 
         // KeyStore
-        String truststore = args.get(TRUSTSTORE_KEY);
-        String truststoreType = this.getTruststoreType(args.get(TRUSTSTORE_TYPE_KEY));
-        String truststorePassword = args.get(TRUSTSTORE_PASSWORD_KEY);
-
+        String truststore = (String) args.get(TRUSTSTORE_KEY);
+        String truststoreType = this.getTruststoreType((String) args.get(TRUSTSTORE_TYPE_KEY));
         Optional<Path> truststorePath = getTrustStorePath(truststore);
+        String truststorePassword = (String) args.get(TRUSTSTORE_PASSWORD_KEY);
+
+        try {
+            LOGGER.info("Password in plain text after decryption is: {}", encryptionService.decrypt(truststorePassword));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e);
+        }
 
         KeyStore jarSigners = this.loadTruststore(truststorePath, truststoreType, truststorePassword);
 
         // Artifact
 
-        String artifactPath = args.get(APPLICATION_FILE_PATH_KEY);
+        String artifactPath = (String) args.get(APPLICATION_FILE_PATH_KEY);
 
         File artifactFile = new File(artifactPath);
 
