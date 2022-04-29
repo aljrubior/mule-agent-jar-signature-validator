@@ -1,4 +1,4 @@
-### Signed Jar File by Example
+## Signed Jar File by Example
 
 ### 1. Generate the trusted code signer keystore (Self signed certificate)
 
@@ -41,7 +41,7 @@ keytool \
 
 #### 3.1 Export the self signed certificate from trusted-code-signer.jks
 
-The following command creates the pem file: trusted-code-signer.pem
+Output file: trusted-code-signer.pem
 
 ```
 keytool \
@@ -56,7 +56,7 @@ keytool \
 
 #### 3.2 Import the exported certificate into the signer truststore
 
-The following command creates the truststore file: signers-truststore.jks
+Output file: signers-truststore.jks
 
 ```
 keytool \
@@ -70,7 +70,7 @@ keytool \
 
 ### 4. Sign the mule application file with jarsigner tool
 
-The following command generates signs the file `app-unsigned.jar` with the keystore `trusted-code-signer.jks`
+The following command generates signs the file `app-unsigned.jar` using the keystore `trusted-code-signer.jks`
 
 Output File: app-signed-by-trust-signer.jar
 
@@ -85,7 +85,7 @@ trusted-code-signer-alias
 
 ### 5. Jar file verification
 
-The following command validates the file `app-signed-by-trust-signer.jar` was signed  with the truststore file `signers-truststore.jks`
+The following command validates the file `app-signed-by-trust-signer.jar` was signed with one of the certificate in the truststore `signers-truststore.jks`
 
 ```
 jarsigner \
