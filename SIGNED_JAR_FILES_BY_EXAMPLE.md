@@ -70,7 +70,9 @@ keytool \
 
 ### 4. Sign the mule application file with jarsigner tool
 
-The following command generates the file: app-signed-by-trust-signer.jar
+The following command generates signs the file `app-unsigned.jar` with the keystore `trusted-code-signer.jks`
+
+Output File: app-signed-by-trust-signer.jar
 
 ```
 jarsigner app-unsigned.jar \
@@ -81,7 +83,9 @@ jarsigner app-unsigned.jar \
 trusted-code-signer-alias
 ```
 
-### 5. Jar file verfication
+### 5. Jar file verification
+
+The following command validates the file `app-signed-by-trust-signer.jar` with the truststore file `signers-truststore.jks`
 
 ```
 jarsigner \
