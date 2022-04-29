@@ -1,4 +1,4 @@
-### Generate
+### Signed Jar File by Example
 
 ### 1. Generate the trusted code signer keystore (Self signed certificate)
 
@@ -85,7 +85,7 @@ trusted-code-signer-alias
 
 ### 5. Jar file verification
 
-The following command validates the file `app-signed-by-trust-signer.jar` with the truststore file `signers-truststore.jks`
+The following command validates the file `app-signed-by-trust-signer.jar` was signed  with the truststore file `signers-truststore.jks`
 
 ```
 jarsigner \
