@@ -1,1 +1,1 @@
-com.mycompany.agent.configuration.guice.MuleAgentJarSignatureValidatorProvider
+com.example.agent.configuration.guice.MuleAgentJarSignatureValidatorProvider

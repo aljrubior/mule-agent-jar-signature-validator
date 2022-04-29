@@ -22,7 +22,7 @@ Mule Agent Installer
 	INFO: The encrypted value to paste on the mule-agent.yml file is: '![PBEWITHSHA1ANDDESEDE,wFE1D5V4DMb0uG77mzU+gibrlmnj3Kzb]'
 ```
 
-## Mule Agent Hello Validator Configuration
+## Mule Agent JAR Signature Validator Configuration
 
 In the following configuration, we are going to implement rules for the hello validator.
 

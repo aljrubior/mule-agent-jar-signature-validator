@@ -1,9 +1,9 @@
-package com.mycompany.agent.configuration.guice;
+package com.example.agent.configuration.guice;
 
 import com.google.inject.Binder;
 import com.mulesoft.agent.configuration.guice.BaseModuleProvider;
 import com.mulesoft.agent.services.ApplicationValidator;
-import com.mycompany.agent.MuleAgentJarSignatureValidator;
+import com.example.agent.MuleAgentJarSignatureValidator;
 
 public class MuleAgentJarSignatureValidatorProvider extends BaseModuleProvider {
     @Override

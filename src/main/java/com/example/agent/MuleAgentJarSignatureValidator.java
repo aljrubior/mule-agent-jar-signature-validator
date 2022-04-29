@@ -1,10 +1,10 @@
-package com.mycompany.agent;
+package com.example.agent;
 
 import com.mulesoft.agent.exception.ApplicationValidationException;
 import com.mulesoft.agent.services.ApplicationValidator;
 import com.mulesoft.agent.services.EncryptionService;
-import com.mycompany.agent.exceptions.KeyStoreException;
-import com.mycompany.agent.exceptions.SignatureVerificationFailedException;
+import com.example.agent.exceptions.KeyStoreException;
+import com.example.agent.exceptions.SignatureVerificationFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sun.security.tools.KeyStoreUtil;
@@ -67,10 +67,11 @@ public class MuleAgentJarSignatureValidator implements ApplicationValidator {
         String truststore = (String) args.get(TRUSTSTORE_KEY);
         String truststoreType = this.getTruststoreType((String) args.get(TRUSTSTORE_TYPE_KEY));
         Optional<Path> truststorePath = getTrustStorePath(truststore);
-        String truststorePassword = (String) args.get(TRUSTSTORE_PASSWORD_KEY);
+        String encryptedTruststorePassword = (String) args.get(TRUSTSTORE_PASSWORD_KEY);
+        String truststorePassword = null;
 
         try {
-            LOGGER.info("Password in plain text after decryption is: {}", encryptionService.decrypt(truststorePassword));
+            truststorePassword = encryptionService.decrypt(encryptedTruststorePassword);
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e);
@@ -100,7 +101,11 @@ public class MuleAgentJarSignatureValidator implements ApplicationValidator {
         int filesCount = 0;
         int signedFilesCount = 0;
 
-        if (manifest == null) throw new SignatureVerificationFailedException("Artifact is unsigned. (signatures missing or not parsable)");
+        if (manifest == null) {
+            String message = "Artifact is unsigned. (signatures missing or not parsable)";
+            LOGGER.error(message);
+            throw new SignatureVerificationFailedException(message);
+        }
 
         for (JarEntry jarEntry: jarEntries){
             if (jarEntry.isDirectory() || SignatureFileVerifier.isBlockOrSF(jarEntry.getName())) continue;
@@ -118,7 +123,9 @@ public class MuleAgentJarSignatureValidator implements ApplicationValidator {
         }
 
         if (filesCount != signedFilesCount) {
-            throw new SignatureVerificationFailedException("Signature validation failed.");
+            String message = "Signature validation failed.";
+            LOGGER.error(message);
+            throw new SignatureVerificationFailedException(message);
         }
     }
 
@@ -256,7 +263,9 @@ public class MuleAgentJarSignatureValidator implements ApplicationValidator {
             return keystore;
 
         } catch (Exception e) {
-            throw new KeyStoreException(format("Unable to load Jar Signers truststore '%s'. Reason: %s", truststorePath, e.getMessage()));
+            String message = format("Unable to load Jar Signers truststore '%s'. Reason: %s", truststorePath, e.getMessage());
+            LOGGER.error(message);
+            throw new KeyStoreException(message);
         }
     }
 }
