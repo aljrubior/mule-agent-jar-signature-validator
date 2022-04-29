@@ -1,12 +1,8 @@
 package com.mycompany.agent.exceptions;
 
-import com.mulesoft.agent.exception.ArtifactValidationException;
+import com.mulesoft.agent.exception.ApplicationValidationException;
 
-public class SignatureVerificationFailedException extends ArtifactValidationException {
-
-    public SignatureVerificationFailedException() {
-        super();
-    }
+public class SignatureVerificationFailedException extends ApplicationValidationException {
 
     /**
      * Creates an instance of the exception with a message explaining the cause.

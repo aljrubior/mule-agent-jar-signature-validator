@@ -1,8 +1,8 @@
 package com.mycompany.agent.exceptions;
 
-import com.mulesoft.agent.exception.ArtifactValidationException;
+import com.mulesoft.agent.exception.ApplicationValidationException;
 
-public class KeyStoreException extends ArtifactValidationException {
+public class KeyStoreException extends ApplicationValidationException {
 
     /**
      * <p>

@@ -1,7 +1,7 @@
 package com.mycompany.agent;
 
-import com.mulesoft.agent.exception.ArtifactValidationException;
-import com.mulesoft.agent.services.ArtifactValidator;
+import com.mulesoft.agent.exception.ApplicationValidationException;
+import com.mulesoft.agent.services.ApplicationValidator;
 import com.mulesoft.agent.services.EncryptionService;
 import com.mycompany.agent.exceptions.KeyStoreException;
 import com.mycompany.agent.exceptions.SignatureVerificationFailedException;
@@ -37,7 +37,7 @@ import static java.lang.String.format;
 
 @Named("JarSignatureValidator")
 @Singleton
-public class MuleAgentJarSignatureValidator implements ArtifactValidator {
+public class MuleAgentJarSignatureValidator implements ApplicationValidator {
 
     private static final Logger LOGGER = LogManager.getLogger(MuleAgentJarSignatureValidator.class);
 
@@ -61,7 +61,7 @@ public class MuleAgentJarSignatureValidator implements ArtifactValidator {
     @Inject
     EncryptionService encryptionService;
 
-    public void validate(Map<String, Object> args) throws IOException, ArtifactValidationException {
+    public void validate(Map<String, Object> args) throws IOException, ApplicationValidationException {
 
         // KeyStore
         String truststore = (String) args.get(TRUSTSTORE_KEY);

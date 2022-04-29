@@ -85,7 +85,7 @@ trusted-code-signer-alias
 
 ### 5. Jar file verification
 
-The following command validates the file `app-signed-by-trust-signer.jar` was signed with one of the certificate in the truststore `signers-truststore.jks`
+The following command validates the file `app-signed-by-trust-signer.jar` was signed with one of the certificates in the truststore `signers-truststore.jks`
 
 ```
 jarsigner \
