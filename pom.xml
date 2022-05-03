@@ -6,12 +6,12 @@
 
     <groupId>org.example</groupId>
     <artifactId>mule-agent-jar-signature-validator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <mule.agent.version>2.4.28-SNAPSHOT</mule.agent.version>
+        <mule.agent.version>2.4.28</mule.agent.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.ws.version>2.0</javax.ws.version>
         <log4j.version>2.17.1</log4j.version>
